@@ -25,7 +25,6 @@ namespace Day_15
             string[] lines = System.IO.File.ReadAllLines("../../../input.txt");
             maxX = lines[0].Length;
             maxY = lines.Length;
-            minCost = 100000;
             Pos[] original = new Pos[maxX * maxY];
             for (int y = 0; y < maxY; y++)
             {
