@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Algorithms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -66,6 +67,31 @@ namespace Day_15
                     positions[y * maxX + x] = p;
                 }
             }
+            //Graph<int> graph = new(true);
+            //for (int y = 0; y < maxY; y++)
+            //{
+            //    for (int x = 0; x < maxX; x++)
+            //    {
+            //        graph.AddNode(y * maxX + x);
+            //    }
+            //}
+            //for (int y = 0; y < maxY; y++)
+            //{
+            //    for (int x = 0; x < maxX; x++)
+            //    {
+            //        if (x < maxX - 1)
+            //        {
+            //            graph.AddPath(y * maxX + x, y * maxX + x + 1, positions[y * maxX + x + 1].risk);
+            //            graph.AddPath(y * maxX + x + 1, y * maxX + x, positions[y * maxX + x].risk);
+            //        }
+            //        if (y < maxY - 1)
+            //        {
+            //            graph.AddPath(y * maxX + x, (y + 1) * maxX + x, positions[(y + 1) * maxX + x].risk);
+            //            graph.AddPath((y + 1) * maxX + x, y * maxX + x, positions[y * maxX + x].risk);
+            //        }
+            //    }
+            //}
+            //Console.WriteLine(graph.ShortestPath(0, maxY * maxX - 1));
             nodes = new List<Node>();
             Node node = new Node();
             node.index = 0;

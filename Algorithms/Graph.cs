@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Algorithms
 {
@@ -14,7 +15,7 @@ namespace Algorithms
             }
             public T TNode { get; set; }
             public List<Tuple<Node, long>> Edges { get; set; }
-            public bool Visited { get; private set; }
+            public bool Visited { get; set; }
             public void AddEdge(Node dest, long cost)
             {
                 Edges.Add(new Tuple<Node,long>(dest,cost));
@@ -41,27 +42,39 @@ namespace Algorithms
         }
         public long ShortestPath(T start, T end)
         {
-            long priority;
-            PriorityQueue<Node,long> queue = new();
+            List<Tuple<Node,long>> queue = new();
             Node startNode = nodes.Find(n => n.TNode.Equals(start));
-            queue.Enqueue(startNode, 0);
+            queue.Add(new(startNode, 0));
 
-            while (!queue.Peek().TNode.Equals(end))
+            while (!queue[0].Item1.TNode.Equals(end))
             {
-                Node nextNode;
-                queue.TryDequeue(out nextNode, out priority);
-                while(nextNode.Visited)
-                    queue.TryDequeue(out nextNode, out priority);
+                Node nextNode = queue[0].Item1;
+                long priority = queue[0].Item2;
+                nextNode.Visited = true;
                 foreach (Tuple<Node,long> edge in nextNode.Edges)
                 {
                     if (!edge.Item1.Visited)
-                        queue.Enqueue(edge.Item1, edge.Item2 + priority);
+                    {
+                        bool found = false;
+                        for (int i = 0; i < queue.Count; i++)
+                        {
+                            if (queue[i].Item1.Equals(edge.Item1))
+                            {
+                                found = true;
+                                if (queue[i].Item2 > priority + edge.Item2)
+                                    queue[i] = new(queue[i].Item1, priority + edge.Item2);
+                            }
+                        }
+                        if (!found)
+                            queue.Add(new(edge.Item1, priority + edge.Item2));
+                    }
                 }
+                queue.RemoveAt(0);
                 if (queue.Count == 0)
                     return -1;
+                queue = queue.OrderBy(t => t.Item2).ToList<Tuple<Node,long>>();
             }
-            queue.TryDequeue(out _, out priority);
-            return priority;
+            return queue[0].Item2;
         }
     }
 }
