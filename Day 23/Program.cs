@@ -6,7 +6,7 @@ namespace Day_23
         static private long cost;
         static private long lowestCost;
         static private int inCorridor;
-        static private Amphipod[] amphipods = new Amphipod[8];
+        static private Amphipod[] amphipods = new Amphipod[16];
         static void Main(string[] args)
         {
             string[] lines = System.IO.File.ReadAllLines("../../../input.txt");
@@ -21,18 +21,29 @@ namespace Day_23
             chars.Add(s[2][0]);
             chars.Add(s[3][0]);
             chars.Add(s[4][0]);
+            s = lines[4].Split('#');
+            chars.Add(s[1][0]);
+            chars.Add(s[2][0]);
+            chars.Add(s[3][0]);
+            chars.Add(s[4][0]);
+            s = lines[5].Split('#');
+            chars.Add(s[1][0]);
+            chars.Add(s[2][0]);
+            chars.Add(s[3][0]);
+            chars.Add(s[4][0]);
             int p = 0;
-            while (p < 8)
+            while (p < 16)
             {
                 for (int i = 0; i < chars.Count; i++)
                 {
-                    if (chars[i] == 'A' + p / 2)
+                    if (chars[i] == 'A' + p / 4)
                     {
                         amphipods[p] = new Amphipod(11 + i, p);
                         p++;
                     }
                 }
             }
+            inCorridor = 0;
             lowestCost = long.MaxValue;
             cost = 0;
             //inCorridor = 0;
@@ -51,8 +62,10 @@ namespace Day_23
             bool done = true;
             for (int i = 0; i < amphipods.Length; i++)
             {
-                if (amphipods[i].Pos != 11 + i / 2 &&
-                    amphipods[i].Pos != 15 + i / 2)
+                if (amphipods[i].Pos != 11 + i / 4 &&
+                    amphipods[i].Pos != 15 + i / 4 &&
+                    amphipods[i].Pos != 19 + i / 4 &&
+                    amphipods[i].Pos != 23 + i / 4)
                     done = false;
             }
             if (done)
@@ -85,27 +98,43 @@ namespace Day_23
                 {
                     Amphipod a = amphipods[i];
                     // Are we already in place?
-                    if (a.Pos == 15 + (i / 2) ||
-                        a.Pos == 11 + (i / 2) && a.WhoIsThere(15 + (i / 2)) / 2 == i / 2)
+                    if (a.Pos == 23 + (i / 4) ||
+                        (a.Pos == 19 + (i / 4) && a.WhoIsThere(23 + (i / 4)) / 4 == i / 4) ||
+                        (a.Pos == 15 + (i / 4) && a.WhoIsThere(19 + (i / 4)) / 4 == i / 4 && a.WhoIsThere(23 + (i / 4)) / 4 == i / 4) ||
+                        (a.Pos == 11 + (i / 4) && a.WhoIsThere(15 + (i / 4)) / 4 == i / 4 && a.WhoIsThere(19 + (i / 4)) / 4 == i / 4 && a.WhoIsThere(23 + (i / 4)) / 4 == i / 4))
                         continue;
                     List<int> tries = new List<int>();
                     int save = a.Pos;
                     // Try to move to another place
 
                     // Move to finish?
-                    if (a.WhoIsThere(11 + (i / 2)) == -1 &&
-                        a.WhoIsThere(15 + (i / 2)) / 2 == i / 2 &&
-                        a.Pos != 15 + (i / 2) &&
-                        a.Pos != 11 + (i / 2))
-                        tries.Add(11 + (i / 2));
-                    if (!a.AnyoneThere(11 + (i / 2)) &&
-                        !a.AnyoneThere(15 + (i / 2)))
-                        tries.Add(15 + (i / 2));
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (a.WhoIsThere(11 + j * 4 + (i / 4)) == -1)
+                        {
+                            tries.Clear();
+                            tries.Add(11 + j * 4 + (i / 4));
+                        }
+                        else if (a.WhoIsThere(11 + j * 4 + (i / 4)) / 4 == i / 4)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            tries.Clear();
+                            break;
+                        }
+                    }
 
                     // If not, move into corridor
-                    if (tries.Count == 0 && a.Pos > 10)
+                    if (inCorridor < 8 && tries.Count == 0 && a.Pos > 10)
+                    {
                         for (int q = 0; q < 11; q++)
-                            tries.Add(q);
+                        {
+                            if (q != 2 && q != 4 && q != 6 && q != 8)
+                                tries.Add(q);
+                        }
+                    }
 
                     // Try to move
                     foreach (int c in tries)
@@ -116,19 +145,18 @@ namespace Day_23
                             // Keep moving
                             cost += delta;
                             //if (a.Pos > 10)
-                            //Console.WriteLine("Moved " + i + " from " + save + " to " + a.Pos + " at cost " + delta);
-                            //if (save <= 10 && a.Pos > 10)
-                            //    inCorridor--;
-                            //if (save > 10 && a.Pos <= 10)
-                            //    inCorridor++;
+                            //    Console.WriteLine("Moved " + i + " from " + save + " to " + a.Pos + " at cost " + delta);
+                            if (save <= 10 && a.Pos > 10)
+                                inCorridor--;
+                            if (save > 10 && a.Pos <= 10)
+                                inCorridor++;
                             Move();
-                            //if (save <= 10 && a.Pos > 10)
-                            //    inCorridor++;
-                            //if (save > 10 && a.Pos <= 10)
-                            //    inCorridor--;
-                            cost -= delta;
+                            if (save <= 10 && a.Pos > 10)
+                                inCorridor++;
+                            if (save > 10 && a.Pos <= 10)
+                                inCorridor--; cost -= delta;
                             //if (a.Pos > 10)
-                            //Console.WriteLine("Moved " + i + " back to " + a.Pos);
+                            //    Console.WriteLine("Moved " + i + " back to " + a.Pos);
                             a.Return(save);
                         }
                     }
@@ -149,7 +177,7 @@ namespace Day_23
                 Pos = pos;
                 HaveMoved = false;
                 Index = index;
-                int pow = (Index / 2);
+                int pow = (Index / 4);
                 BaseCost = 1;
                 while (pow > 0)
                 {
@@ -193,10 +221,10 @@ namespace Day_23
                 // Check that we are ok to move into corridor
                 if (c <= 10)
                 {
-                    if ((c == 2 && (Pos == 11 || Pos == 15)) ||
-                        (c == 4 && (Pos == 12 || Pos == 16)) ||
-                        (c == 6 && (Pos == 13 || Pos == 17)) ||
-                        (c == 8 && (Pos == 14 || Pos == 18)))
+                    if ((c == 2 && (Pos == 11 || Pos == 15 || Pos == 19 || Pos == 23)) ||
+                        (c == 4 && (Pos == 12 || Pos == 16 || Pos == 20 || Pos == 24)) ||
+                        (c == 6 && (Pos == 13 || Pos == 17 || Pos == 21 || Pos == 25)) ||
+                        (c == 8 && (Pos == 14 || Pos == 18 || Pos == 22 || Pos == 26)))
                         return false;
                 }
 
