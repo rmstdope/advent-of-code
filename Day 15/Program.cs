@@ -10,18 +10,12 @@ namespace Day_15
         public int risk;
         public bool visited;
     }
-    class Node
-    {
-        public int index;
-        public int cost;
-    }
     class Program
     {
         private static int maxX;
         private static int maxY;
         private static Pos[] positions;
-        private static List<Node> nodes;
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             string[] lines = System.IO.File.ReadAllLines("../../../input.txt");
             maxX = lines[0].Length;
@@ -31,7 +25,7 @@ namespace Day_15
             {
                 for (int x = 0; x < maxX; x++)
                 {
-                    Pos p = new Pos();
+                    Pos p = new();
                     p.risk = lines[y][x] - '0';
                     p.visited = false;
                     original[y * maxX + x] = p;
@@ -46,7 +40,7 @@ namespace Day_15
             {
                 for (int x = 0; x < maxX; x++)
                 {
-                    Pos p = new Pos();
+                    Pos p = new();
                     Pos p2;
                     if (x < mx && y < my)
                     {
@@ -67,88 +61,24 @@ namespace Day_15
                     positions[y * maxX + x] = p;
                 }
             }
-            //Graph<int> graph = new(true);
-            //for (int y = 0; y < maxY; y++)
-            //{
-            //    for (int x = 0; x < maxX; x++)
-            //    {
-            //        graph.AddNode(y * maxX + x);
-            //    }
-            //}
-            //for (int y = 0; y < maxY; y++)
-            //{
-            //    for (int x = 0; x < maxX; x++)
-            //    {
-            //        if (x < maxX - 1)
-            //        {
-            //            graph.AddPath(y * maxX + x, y * maxX + x + 1, positions[y * maxX + x + 1].risk);
-            //            graph.AddPath(y * maxX + x + 1, y * maxX + x, positions[y * maxX + x].risk);
-            //        }
-            //        if (y < maxY - 1)
-            //        {
-            //            graph.AddPath(y * maxX + x, (y + 1) * maxX + x, positions[(y + 1) * maxX + x].risk);
-            //            graph.AddPath((y + 1) * maxX + x, y * maxX + x, positions[y * maxX + x].risk);
-            //        }
-            //    }
-            //}
-            //Console.WriteLine(graph.ShortestPath(0, maxY * maxX - 1));
-            nodes = new List<Node>();
-            Node node = new Node();
-            node.index = 0;
-            node.cost = 0;
-            nodes.Add(node);
-            while (true)
+            Graph graph = new(maxX * maxY, true);
+            for (int y = 0; y < maxY; y++)
             {
-                nodes = nodes.OrderBy(n => n.cost).ToList();
-                Node n = nodes[0];
-                nodes.Remove(n);
-                int fx = n.index % maxX;
-                int fy = n.index / maxX;
-                Pos p = positions[n.index];
-                p.visited = true;
-                if (fx == maxX - 1 && fy == maxY - 1)
+                for (int x = 0; x < maxX; x++)
                 {
-                    Console.WriteLine(n.cost);
-                    break;
-                }
-                if (fx > 0)
-                {
-                    UpdateCosts(n, n.index - 1);
-                }
-                if (fy > 0)
-                {
-                    UpdateCosts(n, n.index - maxX);
-                }
-                if (fx < maxX - 1)
-                {
-                    UpdateCosts(n, n.index + 1);
-                }
-                if (fy < maxY - 1)
-                {
-                    UpdateCosts(n, n.index + maxX);
+                    if (x < maxX - 1)
+                    {
+                        graph.AddPath(y * maxX + x, y * maxX + x + 1, positions[y * maxX + x + 1].risk);
+                        graph.AddPath(y * maxX + x + 1, y * maxX + x, positions[y * maxX + x].risk);
+                    }
+                    if (y < maxY - 1)
+                    {
+                        graph.AddPath(y * maxX + x, (y + 1) * maxX + x, positions[(y + 1) * maxX + x].risk);
+                        graph.AddPath((y + 1) * maxX + x, y * maxX + x, positions[y * maxX + x].risk);
+                    }
                 }
             }
-        }
-
-        private static void UpdateCosts(Node n, int index)
-        {
-            Pos p2 = positions[index];
-            if (!p2.visited)
-            {
-                Node newN = nodes.Find(q => q.index == index);
-                if (newN != null)
-                {
-                    if (newN.cost > n.cost + p2.risk)
-                        newN.cost = n.cost + p2.risk;
-                }
-                else
-                {
-                    newN = new Node();
-                    newN.cost = n.cost + p2.risk;
-                    newN.index = index;
-                    nodes.Add(newN);
-                }
-            }
+            Console.WriteLine(graph.ShortestPath(0, maxY * maxX - 1));
         }
     }
 }

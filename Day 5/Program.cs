@@ -5,13 +5,7 @@ namespace AdventOfCode
 {
     class Program
     {
-        class Board
-        {
-            public int[] numbers;
-            public bool[] taken;
-            public bool won;
-        }
-        static void Main(string[] args)
+        static void Main()
         {
             string[] lines = System.IO.File.ReadAllLines("../../../input.txt");
             int[] board = new int[1000 * 1000];

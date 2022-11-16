@@ -94,7 +94,6 @@ namespace Day_16
                         //RemoveZeros(4 - numRead % 4);
                     }
                     return val;
-                    break;
                 default:
                     int lengthID = ReadValue(1);
                     int length;

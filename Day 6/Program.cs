@@ -5,13 +5,7 @@ namespace AdventOfCode
 {
     class Program
     {
-        class Fish
-        {
-            public int[] numbers;
-            public bool[] taken;
-            public bool won;
-        }
-        static void Main(string[] args)
+        static void Main()
         {
             string[] lines = System.IO.File.ReadAllLines("../../../input.txt");
             string[] ages = lines[0].Split(',');

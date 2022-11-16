@@ -5,9 +5,9 @@ namespace AdventOfCode
 {
     class Program
     {
-        static int findValue(int bit, Boolean most, List<string> list)
+        static int FindValue(int bit, Boolean most, List<string> list)
         {
-            List<string> newList = new List<string>();
+            List<string> newList = new();
             int ones = 0;
             foreach (string s in list)
             {
@@ -71,24 +71,20 @@ namespace AdventOfCode
             }
             else
             {
-                return findValue(bit + 1, most, newList);
+                return FindValue(bit + 1, most, newList);
             }
         }
-        struct Board
-        {
-            int[][] numbers;
-            Boolean[][] taken;
-        }
-        static void Main(string[] args)
+
+        static void Main()
         {
             string[] lines = System.IO.File.ReadAllLines("../../../input.txt");
-            List<string> list = new List<string>();
+            List<string> list = new();
             foreach(string line in lines)
             {
                 list.Add(line);
             }
-            int co2 = findValue(0, false, list);
-            int o2 = findValue(0, true, list);
+            int co2 = FindValue(0, false, list);
+            int o2 = FindValue(0, true, list);
             Console.WriteLine("O2 : " + o2 + ", CO2: " + co2);
             Console.WriteLine(o2 * co2);
         }
