@@ -59,7 +59,6 @@ namespace AdventOfCode
                 }
                 f3.CopyTo(f2, 0);
             }
-            int n = 0;
             string ret = "";
             string ret2 = "";
             for (int i = 0; i < 28; i++)
