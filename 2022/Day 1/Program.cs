@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventOfCode
 {
@@ -7,25 +8,19 @@ namespace AdventOfCode
     {
         static void Main()
         {
+            //string[] lines = System.IO.File.ReadAllLines("../../../input.txt");
+            //List<string> l2 = System.IO.File.ReadAllLines("../../../input.txt").ToList<string>();
+            string t = System.IO.File.ReadAllText("../../../input.txt");
             List<int> calories = new();
-            string[] lines = System.IO.File.ReadAllLines("../../../input.txt");
-            int sum = 0;
-            for (int i = 0; i < lines.Length; i++)
+            foreach (string s in t.Split("\r\n\r\n"))
             {
-                if (lines[i] == "")
-                {
-                    calories.Add(sum);
-                    sum = 0;
-                }
-                else
-                {
-                    sum += int.Parse(lines[i]);
-                }
+                int[] c = Array.ConvertAll(s.Split("\r\n"), int.Parse);
+                calories.Add(c.Sum());
             }
-            calories.Add(sum);
             calories.Sort();
-            Console.WriteLine(calories[calories.Count - 1]);
-            Console.WriteLine(calories[calories.Count - 1] + calories[calories.Count - 2] + calories[calories.Count - 3]);
+            calories.Reverse();
+            Console.WriteLine(calories[0]);
+            Console.WriteLine(calories.GetRange(0, 3).Sum());
         }
     }
 }
