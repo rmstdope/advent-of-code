@@ -6,4 +6,8 @@
     <RootNamespace>AdventOfCode</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Algorithms\Algorithms.csproj" />
+  </ItemGroup>
+
 </Project>
