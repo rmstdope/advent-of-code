@@ -40,8 +40,6 @@ namespace AdventOfCode
                             x = xt;
                             y = yt;
                             f = ft;
-                            if (yt == 149 && xt == 50 && ft == 1)
-                                f = f;
                             if (ft == 0)
                                 MoveRightP2();
                             else if (f == 1)
