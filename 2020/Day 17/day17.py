@@ -1,7 +1,8 @@
 import numpy as np
 import copy
 
-f = open('input.txt')
+f = open('test.txt')
+f = open('prod.txt')
 strs = f.read().splitlines()
 active = set()
 for y, str in enumerate(strs):
