@@ -1,5 +1,6 @@
 import numpy as np
 import copy
+import math
 
 #f = open('test.txt')
 f = open('prod.txt')
@@ -77,17 +78,30 @@ x = get_cycle(pos, vel, 0)
 y = get_cycle(pos, vel, 1)
 z = get_cycle(pos, vel, 2)
 
-print(x)
-print(y)
-print(z)
+def find_common_cycle(cycles):
+    total = math.prod(cycles)
+    i = 2
 
-part2 = x * y * z
-i = 2
-while i <= max(x, y, z):
-    new_total = part2 // i
-    if new_total % x == 0 and new_total % y == 0 and new_total % z == 0:
-        part2 = new_total
-    else:
-        i += 1
+    while i <= max(cycles):
+        new_total = total // i
+        ok = True
+        for a in cycles:
+            if new_total % a != 0:
+                ok = False
+        if ok:
+            total = new_total
+        else:
+            i += 1
+    return total
+
+part2 = find_common_cycle([x, y, z])
+# part2 = x * y * z
+# i = 2
+# while i <= max(x, y, z):
+#     new_total = part2 // i
+#     if new_total % x == 0 and new_total % y == 0 and new_total % z == 0:
+#         part2 = new_total
+#     else:
+#         i += 1
 
 print(f'{part1=}, {part2=}')
