@@ -28,29 +28,20 @@ while cur_node != 'ZZZ':
 def find_loop(node):
     i = 0
     num = 0
-    cur_node = []
-    cur_node.append(node)
-    done = False
-    while not done:
+    while True:
         ins = instructions[i]
         if ins == 'L':
-            for i2 in range(len(cur_node)):
-                cur_node[i2] = nodes[cur_node[i2]][0]
+            node = nodes[node][0]
         else:
-            for i2 in range(len(cur_node)):
-                cur_node[i2] = nodes[cur_node[i2]][1]
+            node = nodes[node][1]
         i += 1
         num += 1
         if i == len(instructions):
             i = 0
-        done = True
-        for n in cur_node:
-            if n[2] != 'Z':
-                done = False
-    return num
+        if node[2] == 'Z':
+                return num
 
 loops = []
-n2 = []
 for n in nodes:
     if n[2] == 'A':
         loops.append(find_loop(n))
