@@ -5,7 +5,7 @@ import copy
 f = open('prod.txt')
 strs = f.read()
 
-def get_value(map, p2):
+def get_value(map, num_smudges):
     value = 0
     for x in range(len(map[0]) - 1):
         smudges = 0
@@ -18,7 +18,7 @@ def get_value(map, p2):
                         smudges += 1
         # if smudges > 1:
         #     print('?')
-        if (p2 and smudges == 1) or (not p2 and smudges == 0):
+        if num_smudges == smudges:
             value += x + 1
     for y in range(len(map) - 1):
         smudges = 0
@@ -29,14 +29,14 @@ def get_value(map, p2):
                 for x in range(len(map[0])):
                     if map[y1][x] != map[y2][x]:
                         smudges += 1
-        if (p2 and smudges == 1) or (not p2 and smudges == 0):
+        if num_smudges == smudges:
             value += 100 * (y + 1)
     return value
 
 part1 = 0
 part2 = 0
 for map in strs.split('\n\n'):
-    part1 += get_value(map.split('\n'), False)
-    part2 += get_value(map.split('\n'), True)
+    part1 += get_value(map.split('\n'), 0)
+    part2 += get_value(map.split('\n'), 1)
 
 print(f'{part1=}, {part2=}')
