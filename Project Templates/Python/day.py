@@ -3,7 +3,7 @@ import copy
 
 f = open('test.txt')
 #f = open('prod.txt')
-strs = f.read().splitlines()
+strs = f.read().strip().splitlines()
 
 part1 = 0
 part2 = 0
