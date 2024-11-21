@@ -7,20 +7,21 @@ import sympy
 import heapq
 import sys
 import math
+import itertools
 from BaseSolver import BaseSolver
 from aocd.models import Example
-import itertools
 
 class Solver(BaseSolver):
     def __init__(self):
         BaseSolver.__init__(self, __file__)
 
     def get_examples(self):
-        e = Example(input_data='''London to Dublin = 464
+        examples = []
+        examples.add(Example(input_data='''London to Dublin = 464
 London to Belfast = 518
 Dublin to Belfast = 141
-''', answer_a='605', answer_b='982')
-        return [e]
+''', answer_a='605', answer_b='982'))
+        return examples
 
     def solve(self, part2, input) -> str:
         data = input.splitlines()
