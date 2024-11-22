@@ -10,8 +10,27 @@ class BaseSolver(Puzzle):
         print(f'Puzzle {year}/{day}: {self.title}')
 
     def solve_part_1(self):
-        print(f'Solving Part 1')
-        # First solve all examples
+        self.solve_examples_1()
+        self.solve_problem_1()
+
+    def solve_part_2(self):
+        self.solve_examples_2()
+        self.solve_problem_2()
+
+    def solve_problem_1(self):
+        print(f'Solving Problem for Part 1')
+        answer = self.solve(False, self.input_data)
+        print(f'Submitting answer: {answer}')
+        self.answer_a = answer
+
+    def solve_problem_2(self):
+        print(f'Solving Problem for Part 2')
+        answer = self.solve(True, self.input_data)
+        print(f'Submitting answer: {answer}')
+        self.answer_b = answer
+
+    def solve_examples_1(self):
+        print(f'Solving Examples for Part 1')
         examples = self.examples
         try:
             examples = self.get_examples()
@@ -26,14 +45,8 @@ class BaseSolver(Puzzle):
                 else:
                     print(f'Solved example {i}')
 
-        # Next solve the problem
-        answer = self.solve(False, self.input_data)
-        print(f'Submitting answer: {answer}')
-        self.answer_a = answer
-
-    def solve_part_2(self):
-        print(f'Solving Part 2')
-        # First solve all examples
+    def solve_examples_2(self):
+        print(f'Solving Examples for Part 2')
         examples = self.examples
         try:
             examples = self.get_examples()
@@ -47,8 +60,3 @@ class BaseSolver(Puzzle):
                     exit(code=1)
                 else:
                     print(f'Solved example {i}')
-
-        # Next solve the problem
-        answer = self.solve(True, self.input_data)
-        print(f'Submitting answer: {answer}')
-        self.answer_b = answer

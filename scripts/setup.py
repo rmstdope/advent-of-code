@@ -84,8 +84,10 @@ class Solver(BaseSolver):
 
 solver = Solver()
 
-solver.solve_part_1()
-#solver.solve_part_2()
+solver.solve_examples_1()
+solver.solve_problem_1()
+#solver.solve_examples_2()
+#solver.solve_problem_2()
 ''')
     print(f'Boilerplate code created')
 else:
