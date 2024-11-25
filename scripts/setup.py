@@ -73,8 +73,8 @@ class Solver(BaseSolver):
 
 #    def get_examples(self):
 #        examples = []
-#         e = Example(input_data=\'\'\'
-# \'\'\', answer_a='', answer_b=None)
+#        examples.append(Example(input_data=\'\'\'
+#\'\'\', answer_a='', answer_b=None))
 #        return examples
 
     def solve(self, part2, input) -> str:
