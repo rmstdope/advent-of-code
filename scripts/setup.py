@@ -64,6 +64,7 @@ import heapq
 import sys
 import math
 import itertools
+import aoctools
 from BaseSolver import BaseSolver
 from aocd.models import Example
 
