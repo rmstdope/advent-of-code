@@ -72,11 +72,11 @@ class Solver(BaseSolver):
     def __init__(self):
         BaseSolver.__init__(self, __file__)
 
-#    def get_examples(self):
-#        examples = []
-#        examples.append(Example(input_data=\'\'\'
+#     def get_examples(self):
+#         examples = []
+#         examples.append(Example(input_data=\'\'\'
 #\'\'\', answer_a='', answer_b=None))
-#        return examples
+#         return examples
 
     def solve(self, part2, input) -> str:
         data = input.splitlines()
