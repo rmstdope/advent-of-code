@@ -57,7 +57,7 @@ if not os.path.exists(filename):
     open(filename, 'w').write('''import os
 import numpy as np
 import copy
-from collections import defaultdict
+import collections
 import networkx as nx
 import sympy
 import heapq
