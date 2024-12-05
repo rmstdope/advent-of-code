@@ -21,3 +21,55 @@ def divisors(number):
     x.append(1)
     x.sort()
     return x
+
+def filter_coords(coords, max_x, max_y):
+    return list(filter(lambda x: x[0] >= 0 and x[0] <= max_x and x[1] >= 0 and x[1] <= max_y, coords))
+
+def split_in_chunks(data):
+    return [d.split('\n') for d in data.split('\n\n')]
+
+def try_int(x):
+    try:
+        int(x)
+        return int(x)
+    except:
+        return x
+
+def split_lines_and_words(data, to_int=False):
+    out = [line.split(' ') for line in data.splitlines()]
+    if to_int:
+        out = [[try_int(x) for x in line] for line in out]
+    return out
+
+class VM:
+    def __init__(self, program, num_regs, debug_print_every=-1):
+        self.program = program
+        self.regs = [0] * num_regs
+        self.debug_print_every = debug_print_every
+        self.reset()
+        
+    def reset(self):
+        self.pc = 0
+        self.executed = 0
+        self.visited = set()
+        self.finished = False
+        for i in range(len(self.regs)):
+            self.regs[i] = 0
+
+    def execute(self):
+        raise NotImplementedError()
+
+    def jump(self, offset):
+        self.pc += offset - 1
+
+    def run(self):
+        while not self.finished:
+            instr = self.program[self.pc]
+            self.pc += 1
+            self.execute(instr)
+            self.executed += 1
+            if self.debug_print_every > 0 and self.executed % self.debug_print_every == 0:
+                print(f'Regs: {self.regs}, PC: {self.pc}, Executed: {self.executed}')
+            self.finished = self.pc >= len(self.program)
+        return self.regs
+
