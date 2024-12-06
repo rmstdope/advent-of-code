@@ -36,7 +36,7 @@ def try_int(x):
         return x
 
 def split_lines_and_words(data, to_int=False):
-    out = [line.split(' ') for line in data.splitlines()]
+    out = [line.split() for line in data.splitlines()]
     if to_int:
         out = [[try_int(x) for x in line] for line in out]
     return out
