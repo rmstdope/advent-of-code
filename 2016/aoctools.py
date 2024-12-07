@@ -42,6 +42,10 @@ def split_lines_and_words(data, to_int=False):
         out = [[try_int(x) for x in line] for line in out]
     return out
 
+def md5_hash(data):
+    import hashlib
+    return hashlib.md5(data.encode()).hexdigest()
+
 class VM:
     def __init__(self, program, num_regs, debug_print_every=-1):
         self.program = program
