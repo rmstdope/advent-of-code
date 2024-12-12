@@ -41,6 +41,18 @@ def split_lines_and_words(data, to_int=False):
         out = [[try_int(x) for x in line] for line in out]
     return out
 
+def make_grid(data, to_int=False):
+    grid = []
+    for line in data.splitlines():
+        row = []
+        for c in line:
+            if to_int:
+                row.append(try_int(c))
+            else:
+                row.append(c)
+        grid.append(row)
+    return grid
+
 class VM:
     def __init__(self, program, num_regs, debug_print_every=-1):
         self.program = program
