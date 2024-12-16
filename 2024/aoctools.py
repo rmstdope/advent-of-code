@@ -1,5 +1,6 @@
 import math
 import itertools
+import heapq
 
 def prime_factors(n):
     while n % 2 == 0:
@@ -85,3 +86,28 @@ class VM:
             self.finished = self.pc >= len(self.program)
         return self.regs
 
+class BFS:
+    def __init__(self, start_state):
+        self.visited = set()
+        self.states = []
+        self.states.append((0, start_state))
+        self.done = False
+
+    def visit(self, steps, state):
+        raise NotImplementedError()
+
+    def run(self):
+        while not self.done and len(self.states) > 0:
+            steps, state = heapq.heappop(self.states)
+            if state in self.visited:
+                continue
+            self.visited.add(state)
+            self.visit(steps, state)
+
+    def finish(self, result):
+        self.done = True
+        self.result = result
+
+    def add_state(self, steps, state):
+        if state not in self.visited:
+            heapq.heappush(self.states, (steps, state))
