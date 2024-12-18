@@ -92,6 +92,7 @@ class BFS:
         self.states = []
         self.states.append((0, start_state))
         self.done = False
+        self.result = None
 
     def visit(self, steps, state):
         raise NotImplementedError()
