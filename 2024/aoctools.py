@@ -1,6 +1,7 @@
 import math
 import itertools
 import heapq
+import collections
 
 def prime_factors(n):
     while n % 2 == 0:
@@ -108,6 +109,33 @@ class BFS:
     def finish(self, result):
         self.done = True
         self.result = result
+
+    def add_state(self, steps, state):
+        if state not in self.visited:
+            heapq.heappush(self.states, (steps, state))
+
+class BFS2:
+    def __init__(self, grid):
+        self.visited = set()
+        self.states = []
+        self.grid = grid
+        self.dist = collections.defaultdict(lambda: 10**10)
+
+    def visit(self, steps, state):
+        raise NotImplementedError()
+
+    def run(self, start_state, end_state = None):
+        self.states.append((0, start_state))
+        self.dist[start_state] = 0
+        while len(self.states) > 0:
+            steps, state = heapq.heappop(self.states)
+            if state in self.visited:
+                continue
+            self.visited.add(state)
+            if self.visit(steps, state):
+                self.dist[state] = steps
+            if state == end_state:
+                break
 
     def add_state(self, steps, state):
         if state not in self.visited:
