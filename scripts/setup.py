@@ -10,22 +10,26 @@ if len(sys.argv) != 3:
 year = sys.argv[1]
 day = sys.argv[2]
 
-if int(year) < 2015 or int(year) > 2024:
-    print(f'[year] must be [2015..2024]')
+if int(year) < 2015 or int(year) > 2030:
+    print(f'[year] must be [2015..2030]')
     exit(code=1)
 
 if int(day) < 1 or int(day) > 25:
     print(f'[day] must be [1..25]')
     exit(code=1)
 
-# Assume Windows
+# Assume Windows/Linux/MacOS compatible path separators
+if os.name == 'nt':
+    separator = '\\'
+else:
+    separator = '/'
 print('Scanning path')
-dirs = os.getcwd().split('\\')
+dirs = os.getcwd().split(separator)
 dir_index = -1
 base_dir = ''
 build_dir = ''
 for i,d in enumerate(dirs):
-    build_dir += d + '\\'
+    build_dir += d + separator
     if d == 'advent-of-code':
         base_dir += build_dir
         dir_index = i
@@ -35,7 +39,7 @@ if dir_index == -1:
     exit(code=1)
 
 print('Base path found')
-year_dir = base_dir + year + '\\'
+year_dir = base_dir + year + separator
 
 if not os.path.exists(year_dir):
     os.makedirs(year_dir)
@@ -114,4 +118,3 @@ else:
 #     print(f'Production file already exists')
 
 #os.chdir(day_dir)
-    
