@@ -21,19 +21,19 @@ class BaseSolver(Puzzle):
         self.solve_problem_2()
 
     def solve_problem_1(self):
-        print(f'Solving Problem for Part 1')
+        print('Solving Problem for Part 1')
         answer = self.solve(False, self.input_data)
         print(f'Submitting answer: {answer}')
         self.answer_a = answer
 
     def solve_problem_2(self):
-        print(f'Solving Problem for Part 2')
+        print('Solving Problem for Part 2')
         answer = self.solve(True, self.input_data)
         print(f'Submitting answer: {answer}')
         self.answer_b = answer
 
     def solve_examples_1(self):
-        print(f'Solving Examples for Part 1')
+        print('Solving Examples for Part 1')
         examples = self.examples
         try:
             examples = self.get_examples()
@@ -49,7 +49,7 @@ class BaseSolver(Puzzle):
                     print(f'Solved example {i}')
 
     def solve_examples_2(self):
-        print(f'Solving Examples for Part 2')
+        print('Solving Examples for Part 2')
         examples = self.examples
         try:
             examples = self.get_examples()
