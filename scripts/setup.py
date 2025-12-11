@@ -68,6 +68,8 @@ import heapq
 import sys
 import math
 import itertools
+from functools import cache
+from z3 import *
 from aoctools import *
 from BaseSolver import BaseSolver
 from aocd.models import Example
